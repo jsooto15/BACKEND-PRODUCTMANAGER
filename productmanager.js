@@ -74,8 +74,6 @@ await productManager.addProduct("Iphone 13","Purple 128gb",800,"./IMG/photo2.png
 await productManager.getProducts()
 console.log(await productManager.getProducts())
 await productManager.addProduct("Samsung S23 Ultra","Black 512gb 12gb ram",1100,"./IMG/photo.png","SU5952",7, )
-
-
 await productManager.getProductsById(1)
 await productManager.updateProducts(1,{"title": "Iphone 14","description": "Silver Black 128gb","price": 950,"thumbnail": "./IMG/photo4.png","code": "AP4852","stock": 16})
 await productManager.deleteProduct(2)

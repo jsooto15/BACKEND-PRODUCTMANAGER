@@ -1,0 +1,23 @@
+{
+  "name": "backend-productmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "productmanager.js",
+  "scripts": {
+    "test": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsooto15/BACKEND-PRODUCTMANAGER.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsooto15/BACKEND-PRODUCTMANAGER/issues"
+  },
+  "homepage": "https://github.com/jsooto15/BACKEND-PRODUCTMANAGER#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
