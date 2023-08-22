@@ -81,4 +81,5 @@ await productManager.deleteProduct(2)
 
 // El resultado final quedaria en el archivo products.json 
 };
-functionayc()
+//functionayc()
+module.exports = ProductManager;
