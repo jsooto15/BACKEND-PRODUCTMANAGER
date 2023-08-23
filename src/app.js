@@ -19,3 +19,5 @@ app.get ('/products/:pid', async(req, res)=> {
   res.send(productId);
    
   });
+
+  app.listen(8080, () => console.log("Activo"))
