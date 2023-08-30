@@ -1,23 +1,16 @@
-const express = require('express')
-const ProductManager = require('../productmanager.js');
-const productmanager = new ProductManager('../products.json');
-const app = express()
+import express  from 'express';
+const app = express();
+import prodRouter from './routes/productroute.js'; 
+import cartRouter from './routes/cartroute.js'; 
 
-app.get('/products', async (req, res) => {
-  const  limit  = req.query.limit;
-  const products = await productmanager.getProducts();
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-  if (limit){
-  return res.send(products.slice(0, limit))
-  }
-  res.send(products);
-  });
+app.use('/api/products', prodRouter)
+app.use('/api/carts', cartRouter)
 
-app.get ('/products/:pid', async(req, res)=> {
-  const iD = req.params.pid;
-  const productId = await productmanager.getProductsById(iD);
-  res.send(productId);
-   
-  });
 
-  app.listen(8080, () => console.log("Activo"))
+
+
+app.listen(8080, () => console.log("ACTIVAU"));
+

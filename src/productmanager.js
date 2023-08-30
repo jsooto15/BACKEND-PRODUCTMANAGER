@@ -1,11 +1,12 @@
-const fs = require('fs')
-class ProductManager{
+import fs from "fs"
+
+ class ProductManager{
 
     products; 
 
-       constructor(){
-       this.products = []
-       this.path = './products.json';
+       constructor(file){
+       
+       this.path = file;
       }
 
       async getProducts() {
@@ -17,14 +18,8 @@ class ProductManager{
       let data  =  await this.getProducts()
       return data.length + 1;}
 
-      async addProduct(title,description,price,thumbnail,code,stock){ 
-      const newProduct={
-      title, 
-      description,
-      price,
-      thumbnail,
-      code,
-      stock}
+      async addProduct(newProduct){ 
+      
                    
       try{
       if(!fs.existsSync(this.path)){
@@ -55,7 +50,7 @@ class ProductManager{
       async getProductsById(id){
       const data = await this.getProducts()
       let productFind = data.find( e => e.id == id ) 
-      return productFind === undefined ?console.log("Not found"): productFind
+      return productFind === undefined ?console.log("No encontrado"): productFind
       }
       // Funcion Eliminar productos 
       async deleteProduct(id){
@@ -82,4 +77,4 @@ await productManager.deleteProduct(2)
 // El resultado final quedaria en el archivo products.json 
 };
 //functionayc()
-module.exports = ProductManager;
+export default ProductManager;
