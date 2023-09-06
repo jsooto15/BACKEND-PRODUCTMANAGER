@@ -1,0 +1,14 @@
+{{#each products}}
+<p>Nombre: {{this.title}}</p>
+<p>Descripcion: {{this.description}}</p>
+<p>Precio: {{this.price}}</p>
+<p>Codigo: {{this.code}}</p>
+<p>Unidades: {{this.stock}}</p>
+<p>ID: {{this.id}}</p>
+<br>
+{{/each}}
+
+<button type="button" id="btn-1">Actualizar</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/index.js"></script>

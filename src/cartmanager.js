@@ -2,9 +2,9 @@ import fs from "fs"
 
 class CartManager{
     
-      constructor(file){
-        this.cart = file || "./carts.json"
-        }
+    constructor(file){
+       this.cart = file || "./carts.json"
+    }
 
     async getCarts() {
         const data = JSON.parse(await fs.promises.readFile(this.cart, 'utf-8'))
@@ -17,14 +17,6 @@ class CartManager{
         return data.length + 1;
     }
 
-    async addCart(newCart){
-        newCart.id = await this.getId()
-        let data = await this.getCarts()
-        data.push(newCart)
-        await fs.promises.writeFile(this.cart,JSON.stringify(data))
-        
-    }
- 
     async getCartById (id) {
         let carts = await this.getCarts();
         let cartFind = carts.find((cart) => cart.id == id);
@@ -33,8 +25,15 @@ class CartManager{
         
     }
 
-
-  async addProductsToCart(cid, pid , product){
+    async addCart(newCart){
+        newCart.id = await this.getId()
+        let data = await this.getCarts()
+        data.push(newCart)
+        await fs.promises.writeFile(this.cart,JSON.stringify(data))
+        
+    }
+    
+    async addProductsToCart(cid, pid , product){
         try {
             const carts = await this.getCarts();
             const selectedCart = carts[cid - 1];

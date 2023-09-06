@@ -36,6 +36,7 @@ prodRouter.get("/", async (req, res) => {
  
     await manager.addProduct(productadd)
     res.send("Agregado correctamente")
+    req.context.socketServer.enit()
  })
  
 
