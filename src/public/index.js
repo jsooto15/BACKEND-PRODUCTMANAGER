@@ -1,22 +1,14 @@
 const socket = io()
-const btn1 = document.getElementById('btn-1')
+const prod = document.getElementById('products')
 
 
-btn1.addEventListener('click', (e) => {
+socket.on('conectado', (products)=>{
 
+
+ products.forEach((i) => {
+ const addProduct = document.createElement('div');
+ 
+ addProduct.innerHTML = `<p>Nombre: ${i.title}</p><p>Descripcion: ${i.description}</p>`
+ prod.appendChild(addProduct)
+  });
 })
-
-
-socket.on('connect', () => {
-    console.log('Conectado al servidor');
-});
-
-
-socket.on('products', (products) => {
-    console.log('Lista de productos recibida desde el servidor:');
-    console.log(products);
-});
-
-socket.on('disconnect', () => {
-    console.log('Desconectado del servidor');
-});
