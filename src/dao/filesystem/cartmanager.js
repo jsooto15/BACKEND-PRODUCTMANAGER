@@ -24,6 +24,9 @@ class CartManager{
         return cartFind
         
     }
+    async getProdcutsInCart(id){
+        const cart = await this.getCartById(id)
+    }
 
     async addCart(newCart){
         newCart.id = await this.getId()

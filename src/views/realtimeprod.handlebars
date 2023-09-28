@@ -1,4 +1,21 @@
-<div id="products"> </div>
+<form id="formProduct">
+    <input class="controls" type="text" name="title" id="title" placeholder="Ingrese Nombre del Producto"campo obligatorio>
+    <input class="controls" type="text" name="description" id="description" placeholder="Ingrese description"campo obligatorio>
+    <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese su stock"campo obligatorio>
+    <input class="controls" type="text" name="code" id="code" placeholder="Ingrese su code"campo obligatorio>
+    <input class="controls" type="text" name="thumbnail" id="thumbnail" placeholder="Ingrese su imagen url"campo obligatorio>
+    <input class="controls" type="number" name="price" id="price" placeholder="Ingrese su precio"campo obligatorio>
+    <button class="botons" type="submit" id="add-btn" >Cargar </button>
+    <h2> Para eliminar un producto:</h2>
+    <input class="controls" type="text" name="id-prod" id="id-prod" placeholder="Ingrese ID" >
+   <button class="botons" type="button" id="delete-btn">Eliminar</button>
+
+  </form>
+
+
+ <article id="list-products">
+      
+</article>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="../public/index.js"></script>
+<script src="../public/js/realtime.js"></script>

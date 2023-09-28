@@ -1,17 +1,19 @@
 import { Router } from "express";
 const viewRouter = Router();
-import ProductManager from "../productmanager.js"
-const manager = new ProductManager("./src/products.json");
+import { __dirname } from "../path.js"
+import ProductManager from "../dao/database/productmanager.js"
+const manager = new ProductManager;
 
-viewRouter.get('/realtimeproducts', async (req,res)=> { 
-   let products = await manager.getProducts()
-   res.render('home', {products})
-   
-    req.context.socketServer.on('Conectando',(socket) => {
-      console.log( `Conectado ${socket.id}`);
-      req.context.socketSv.emit('products',products)
-  
-  })
-})
+viewRouter.get('/', async (req, res) => {
+    const products = await manager.getProducts();
+    res.render('home', { products });
+});
+
+viewRouter.get('/realtimeproducts', async (req, res) => {
+    res.render('realTimeProducts');
+});
+
+viewRouter.get('/chat', async (req, res) => 
+    res.render('chat'));
 
 export default viewRouter;
