@@ -7,36 +7,27 @@ socketClient.on("enviodeproducts",(obj)=>{
 
 
 function updateProductList(products) {
-    let div = document.getElementById("list-products");
+    let div = document.getElementById("products");
     let productos = "";
   
     products.forEach((product) => {
       productos += `
-          <article class="container">
-        <div class="card">
-          <div class="imgBx">
-            <img src="${product.thumbnail}" width="150" />
-          </div>
-          <div class="contentBx">
-            <h2>${product.title}</h2>
-            <div class="size">
-              <h3>${product.description}</h3>
-              <span>7</span>
-              <span>8</span>
-              <span>9</span>
-              <span>10</span>
-            </div>
-            <div class="color">
-              <h3>${product.price}</h3>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <a href="#">Buy Now</a>
-          </div>
-        </div>
-        
-      </article>
+  <article class="container" id="products">
+ <div class="card" style="width: 18rem;">
+  <img src="${product.thumbnail}" class="card-img-top">
+  <div class="card-body">
+    <h2 class="card-title">${product.title}</h2>
+    <p class="card-text">${product.description}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Pirce: ${product.price}$</li>
+    <li class="list-group-item">Disponibilidad: ${product.stock}</li>
+  </ul>
+  <div class="card-body">
+   <a href="#" class="btn btn-primary">Comprar</a>
+  </div>
+</div>
+</article>
           
           `;
     });
@@ -51,19 +42,17 @@ form.addEventListener("submit", (evt) => {
 
   let title = form.elements.title.value;
   let description = form.elements.description.value;
+  let price = form.elements.price.value;
   let stock = form.elements.stock.value;
   let thumbnail = form.elements.thumbnail.value;
-  let category = form.elements.category.value;
-  let price = form.elements.price.value;
   let code = form.elements.code.value;
 
   socketClient.emit("addProduct", {
     title,
     description,
+    price,
     stock,
     thumbnail,
-    category,
-    price,
     code,
   });
 

@@ -7,31 +7,25 @@ const chat=document.getElementById("chat")
 
 
 
-let usuario="fffffff"
+let usuario=null
 
-/*if(!usuario){
+if(!usuario){
     Swal.fire({
-        title:"Welcome to my English Class",
+        title:"Bienvenido al E-COMMERCE",
         text:"Ingresa tu usuario",
         input:"text",
         inputValidator:(value)=>{
             if(!value){
-                return "Necesitas ingresar tu Nombre"
+                return "Necesitas ingresar tu nombre de usuario"
             }
         }
     })
-    .then(username=>{
-        usuario=username.value
-        nombreUsuario.innerHTML=usuario
-        socketClient.emit("nuevousuario",usuario)
-    })
-}*/
-
-
-        //usuario=username.value
-        console.log(usuario);
-        nombreUsuario.innerHTML=usuario
-        socketClient.emit("nuevousuario",usuario)
+        .then(username=>{
+            usuario=username.value
+            nombreUsuario.innerHTML=usuario
+            socketClient.emit("nuevousuario",usuario)
+        })
+}
 
 formulario.onsubmit=(e)=>{
     e.preventDefault()

@@ -11,16 +11,17 @@ import cartRouter from './routes/cartroute.js';
 import viewRouter from './routes/viewsroute.js';
 
 
-
 mongoose.connect('mongodb+srv://jsooto4:cbfJNXtug3RvHxr8@cluster0.mutkthe.mongodb.net/?retryWrites=true&w=majority');
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(express.static(__dirname+"/public"))
 app.engine('handlebars', handlebars.engine())
 
 app.set('view engine','handlebars')
-app.set('views',__dirname+"/views");
-app.use(express.static("./public"))
+app.set("views",__dirname+"/views");
+//app.use(express.static("./public"))
+//app.use(express.static('public'));
 
 app.use((req, res, next) => {
 req.context = {socketServer};
@@ -38,7 +39,7 @@ import MessagesManager from './dao/database/messagemanager.js';
 const messagesocket = new MessagesManager()
 
 socketServer.on("connection",async(socket)=>{
-    console.log("client connected con ID:",socket.id)
+    console.log("Cliente conectado con ID:",socket.id)
      const listadeproductos=await managersocket.getProducts()
     socketServer.emit("enviodeproducts",listadeproductos)
 
@@ -66,12 +67,13 @@ socketServer.on("connection",async(socket)=>{
            })
        
            socket.on("mensaje", async (info) => {
-            // Guardar el mensaje utilizando el MessagesManager
+          
             console.log(info)
             await messagesocket.createMessage(info);
-            // Emitir el mensaje a todos los clientes conectados
+           
             socketServer.emit("chat", await messagesocket.getMessages());
           });
     
 })
+
 

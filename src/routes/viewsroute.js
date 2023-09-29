@@ -10,7 +10,7 @@ viewRouter.get('/', async (req, res) => {
 });
 
 viewRouter.get('/realtimeproducts', async (req, res) => {
-    res.render('realTimeProducts');
+    res.render('realtimeproducts');
 });
 
 viewRouter.get('/chat', async (req, res) => 
