@@ -1,6 +1,7 @@
 import { messageModel } from "../models/messagemodel.js";
 
 export default class MessagesManager {
+  //Muestra los mensajes
   async getMessages(){
       try {
         return await messageModel.find().lean();
@@ -8,7 +9,7 @@ export default class MessagesManager {
         return error;
       }
     }
-  
+  //Crea un mesaje 
   async createMessage(message){
       try {
         return await messageModel.create(message);

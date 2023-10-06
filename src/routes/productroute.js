@@ -2,6 +2,7 @@ import { Router } from "express";
 const prodRouter = Router()
 
 import ProductManager from "../dao/database/productmanager.js"
+
 const manager = new ProductManager;
 
 prodRouter.get('/', async (req, res) => {

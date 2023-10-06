@@ -1,19 +1,48 @@
 import { productModel } from "../models/product.model.js";
 export default class ProductManager
 {
+ /*async categories() {
+        try {
+            const categories = await productModel.aggregate([
+                {
+                    $group: {
+                        _id: null,
+                        categories: { $addToSet: "$category" }
+                    }
+                }
+            ])
+
+            return categories[0].categories
+
+        }
+        catch (err) {
+            console.log(err);
+            return err
+        }
+
+    }
+    async getProductsView() {
+        try {
+            return await productModel.find().lean();
+
+        } catch (err) {
+            return err
+        }
+    };*/
+
+  //Muestra los productos  
   async getProducts() {
-        const products = await productModel.find({}).lean();
+      const products = await productModel.find({}).lean();
         console.log(products);
         return products;
     }
-
-    async getProductById(id) {
+  //Muestra un producto por su id
+  async getProductById(id) {
         const product = await productModel.find({ _id: id }).lean();
         return product;
     }
-
-
-    async addProduct( title, description, price, stock, thumbnail, code, status) {
+  //Agregando producto
+    async addProduct( title, description, price, stock, thumbnail, code,category, status) {
         const newProduct = {
 
             title,
@@ -22,6 +51,7 @@ export default class ProductManager
             stock,
             thumbnail,
             code,
+            category,
             status,
             
         };
@@ -39,14 +69,12 @@ export default class ProductManager
             console.log(error);
         }
     }
-
-
+   //Actualiza un producto
     async updateProduct(id, obj) {
         await productModel.updateOne({ _id: id }, obj).lean();
         return obj;
     }
-
-
+   //Elimina un producto
     async deleteProduct(id) {
         try {
             const products = await productModel.findByIdAndDelete(id);
