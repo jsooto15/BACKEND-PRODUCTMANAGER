@@ -19,10 +19,10 @@ export default class ProductManager
 
             title,
             description,
-            price,
-            stock,
+            price: Number(price),
+            stock:Number(stock),
             thumbnail,
-            code,
+            code: code.toString(),
             category,
             status,
             

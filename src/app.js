@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname+"/public"))
 app.engine('handlebars', handlebars.engine())
-
+app.use(express.static(__dirname+"/public"))
 app.set('view engine','handlebars')
 app.set("views",__dirname+"/views");
 //app.use(express.static("./public"))
