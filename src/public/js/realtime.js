@@ -1,68 +1,90 @@
-const socketClient=io()
+const socketClient = io();
 console.log(io);
 
-socketClient.on("enviodeproducts",(obj)=>{
-    updateProductList(obj)
+const form = document.getElementById('form');
+
+const productListContainer = document.getElementById('productListContainer'); 
+// captura de la etiqueta ul (lista vacia)
+
+
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const inputTitle = document.getElementById('prod-title').value;
+    const inputDescription = document.getElementById('prod-description').value;
+    const inputPrice = parseFloat(document.getElementById('prod-price').value);
+    const inputThumnail = document.getElementById('prod-thumbnail').value;
+    const inputCode = parseInt(document.getElementById('prod-code').value, 10);
+    const inputStock = parseInt(document.getElementById('prod-stock').value, 10);
+    const inputStatus = document.getElementById('prod-status').value;
+    const inputCategory = document.getElementById('prod-category').value;
+
+    console.log("formulario enviado");
+
+    console.log("Título:", inputTitle);
+    console.log("Descripción:", inputDescription);
+    console.log("Precio:", inputPrice);
+    console.log("Thumbnail:", inputThumnail);
+    console.log("Código:", inputCode);
+    console.log("Stock:", inputStock);
+    console.log("Status:", inputStatus);
+    console.log("Categoría:", inputCategory);
+
+
+
+    if (
+        !inputTitle ||
+        !inputDescription ||
+        isNaN(inputPrice) ||
+        !inputThumnail ||
+        isNaN(inputCode) ||
+        isNaN(inputStock) ||
+        !inputStatus ||
+        !inputCategory
+    ) {
+        alert('Please complete all the form fields product for add the product');
+        return;
+    }else{
+        alert('Product added successfully');
+    }
+
+
+
+    socketClient.emit('newProduct', {
+        title: inputTitle,
+        description: inputDescription,
+        price: inputPrice,
+        thumbnail: inputThumnail,
+        code: inputCode,
+        stock: inputStock,
+        status: inputStatus,
+        category: inputCategory,
+    });
+});
+
+
+
+
+
+// DELETE
+const deleteProduct = document.getElementById('post-delete')
+const inputDelete = document.getElementById('prod-delete')
+
+deleteProduct.addEventListener('click', (event)=>{
+    event.preventDefault()
+    const idDeleteFromSocketClient = inputDelete.value
+    socketClient.emit('deleteProduct', {idDeleteFromSocketClient})
 })
 
 
-function updateProductList(products) {
-    let div = document.getElementById("products");
-    let productos = "";
-  
-    products.forEach((product) => {
-      productos += `
-  <article class="container" id="products">
- <div class="card" style="width: 18rem;">
-  <img src="${product.thumbnail}" class="card-img-top">
-  <div class="card-body">
-    <h2 class="card-title">${product.title}</h2>
-    <p class="card-text">${product.description}</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Pirce: ${product.price}$</li>
-    <li class="list-group-item">Disponibilidad: ${product.stock}</li>
-  </ul>
-  <div class="card-body">
-   <a href="#" class="btn btn-primary">Comprar</a>
-  </div>
-</div>
-</article>
-          
-          `;
-    });
-  
-    div.innerHTML = productos;
-  }
 
 
-  let form = document.getElementById("formProduct");
-form.addEventListener("submit", (evt) => {
-  evt.preventDefault();
+socketClient.on('Socket-Products', (productsList) => { 
+    //recibimos la lista actualizada de productos
+    productListContainer.innerHTML = '';
+    productsList.forEach(product => {
+        productListContainer.innerHTML = productListContainer.innerHTML + `<li>(id: ${product.id}) ${product.title}</li>`;
+    }) 
 
-  let title = form.elements.title.value;
-  let description = form.elements.description.value;
-  let price = form.elements.price.value;
-  let stock = form.elements.stock.value;
-  let thumbnail = form.elements.thumbnail.value;
-  let code = form.elements.code.value;
-
-  socketClient.emit("addProduct", {
-    title,
-    description,
-    price,
-    stock,
-    thumbnail,
-    code,
-  });
-
-  form.reset();
 });
-
-document.getElementById("delete-btn").addEventListener("click", function () {
-    const deleteidinput = document.getElementById("id-prod");
-    const deleteid = deleteidinput.value;
-    console.log(deleteid)
-    socketClient.emit("deleteProduct", deleteid);
-    deleteidinput.value = "";
-  });

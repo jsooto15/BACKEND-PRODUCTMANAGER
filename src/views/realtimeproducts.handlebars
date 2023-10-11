@@ -1,21 +1,51 @@
-<form id="formProduct">
-    <input class="controls" type="text" name="title" id="title" placeholder="Ingrese Nombre del Producto"campo obligatorio>
-    <input class="controls" type="text" name="description" id="description" placeholder="Ingrese description"campo obligatorio>
-    <input class="controls" type="number" name="price" id="price" placeholder="Ingrese su precio"campo obligatorio>
-    <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese su stock"campo obligatorio>
-    <input class="controls" type="text" name="code" id="code" placeholder="Ingrese su code"campo obligatorio>
-    <input class="controls" type="text" name="thumbnail" id="thumbnail" placeholder="Ingrese su imagen url"campo obligatorio>
-    <button class="botons" type="submit" id="add-btn" >Cargar </button>
-    <h2> Para eliminar un producto:</h2>
-    <input class="controls" type="text" name="id-prod" id="id-prod" placeholder="Ingrese ID" >
-   <button class="botons" type="button" id="delete-btn">Eliminar</button>
+<section>
+    <div>
+        <h1 style="color: white; font-size: 50px; font-weight: bold; text-align: center;">PRODUCTS:</h1>
+    </div>
 
-</form>
+    <div style="color: white; margin: 90px; font-size: 20px; text-align:center">
+        <br style="font-size: 40px; display: flex; justify-content: center; ">
+        <form id="form">
+            <h1 style="margin-bottom: 5px; font-size: 25px;">Add Products:</h1>
+            <br / style="font-size: 10px">
+            <input type="text" id="prod-title" name="prod-title" placeholder="Title"><br>
+            <input type="text" id="prod-description" name="prod-description" placeholder="Description"><br>
+            <input type="number" id="prod-price" name="prod-price" placeholder="Price"><br>
+            <input type="text" id="prod-thumbnail" name="prod-thumbnail" placeholder="Thumbnail"><br>
+            <input type="number" id="prod-code" name="prod-code" placeholder="Code"><br>
+            <input type="text" id="prod-stock" name="prod-stock" placeholder="Stock"><br>
+            <input type="text" id="prod-status" name="prod-status" placeholder="Status: true or false"><br>
+            <input type="text" id="prod-category" name="prod-category" placeholder="Category"><br>
+
+            <br />
+            <input id="post" type="submit" value="Post" class="btn btn-primary">
+        </form>
+    </div>
+
+    <br / style="font-size: 40px">
+
+    <div style="margin: 30px; font-size: 20px; text-align:center" id="delete">
+        <h1 style="color: white; font-size: 25px;">Put the id number for delete a Product:</h1>
+        <input type="number" id="prod-delete" name="prod-delete" placeholder="id">
+        <br / style="font-size: 30px"> <br />
+        <input id="post-delete" type="submit" value="Delete" class="btn btn-danger">
+    </div>
+    </div>
+
+    <br / style="font-size: 90px">
+
+    <h1 style="color: white; font-size: 40px">PRODUCT LIST:</h1>
+    <ul style="color: white; font-size: 23px;" id="productListContainer"></ul>
 
 
- <article id="products">
-      
-</article>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/realtime.js"></script>
+
+
+</section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+
+    <script src="/js/realTimeProducts.js"></script>

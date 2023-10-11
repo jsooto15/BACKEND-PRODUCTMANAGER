@@ -1,34 +1,6 @@
 import { productModel } from "../models/product.model.js";
 export default class ProductManager
 {
- /*async categories() {
-        try {
-            const categories = await productModel.aggregate([
-                {
-                    $group: {
-                        _id: null,
-                        categories: { $addToSet: "$category" }
-                    }
-                }
-            ])
-
-            return categories[0].categories
-
-        }
-        catch (err) {
-            console.log(err);
-            return err
-        }
-
-    }
-    async getProductsView() {
-        try {
-            return await productModel.find().lean();
-
-        } catch (err) {
-            return err
-        }
-    };*/
 
   //Muestra los productos  
   async getProducts() {
@@ -42,7 +14,7 @@ export default class ProductManager
         return product;
     }
   //Agregando producto
-    async addProduct( title, description, price, stock, thumbnail, code,category, status) {
+    async addProduct({ title, description, price, stock, thumbnail, code,category, status}) {
         const newProduct = {
 
             title,
