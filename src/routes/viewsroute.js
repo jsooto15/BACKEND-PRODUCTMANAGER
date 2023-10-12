@@ -12,8 +12,8 @@ viewRouter.get('/', async (req, res) => {
     res.render('home', { products });
 });
 viewRouter.get('/products', async (req, res) => {
-     const pageId = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 10; 
+    const pageId = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const sort = req.query.sort || 'asc';
     const query = req.query.query || '';
     const stockQuery = req.query.status || '';
@@ -97,7 +97,7 @@ viewRouter.get('/products', async (req, res) => {
         currentQuery: query,
         currentStock: stockQuery,
     });
-     const responseObject = {
+    const responseObject = {
         status: "success",
         payload: result.docs,
         totalDocs: result.totalDocs,
@@ -110,12 +110,15 @@ viewRouter.get('/products', async (req, res) => {
         prevPage: result.prevPage,
         nextPage: result.nextPage
     };
+    /*console.log("Resumen:", responseObject);*/
 });
+
+
 viewRouter.get('/realtimeproducts', async (req, res) => {
     res.render('realtimeproducts');
 });
 
-viewRouter.get('/chat', async (req, res) => 
+viewRouter.get('/chat', async (req, res) =>
     res.render('chat'));
 
 export default viewRouter;
