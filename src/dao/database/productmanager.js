@@ -14,15 +14,15 @@ export default class ProductManager
         return product;
     }
   //Agregando producto
-    async addProduct({ title, description, price, stock, thumbnail, code,category, status}) {
+    async addProduct( title, description, price, stock, thumbnail, code,category, status) {
         const newProduct = {
 
             title,
             description,
-            price: Number(price),
-            stock:Number(stock),
+            price,
+            stock,
             thumbnail,
-            code: code.toString(),
+            code,
             category,
             status,
             
@@ -35,6 +35,7 @@ export default class ProductManager
         }
         try {
             const products = await productModel.create(newProduct);
+           
             return products;
 
         } catch (error) {

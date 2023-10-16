@@ -11,25 +11,26 @@ const productListContainer = document.getElementById('productListContainer');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const inputTitle = document.getElementById('prod-title').value;
-    const inputDescription = document.getElementById('prod-description').value;
-    const inputPrice = parseFloat(document.getElementById('prod-price').value);
-    const inputThumnail = document.getElementById('prod-thumbnail').value;
-    const inputCode = parseInt(document.getElementById('prod-code').value, 10);
-    const inputStock = parseInt(document.getElementById('prod-stock').value, 10);
-    const inputStatus = document.getElementById('prod-status').value;
-    const inputCategory = document.getElementById('prod-category').value;
+    const inputTitle = document.getElementById('title').value;
+    const inputDescription = document.getElementById('description').value;
+    const inputPrice = parseFloat(document.getElementById('price').value);
+    const inputThumnail = document.getElementById('thumbnail').value;
+    const inputCode = parseInt(document.getElementById('code').value, 10);
+    const inputStock = parseInt(document.getElementById('stock').value, 10);
+    const inputStatus = document.getElementById('status').value;
+    const inputCategory = document.getElementById('category').value;
 
     console.log("formulario enviado");
 
     console.log("Título:", inputTitle);
     console.log("Descripción:", inputDescription);
     console.log("Precio:", inputPrice);
+    console.log("Stock:", inputStock);
     console.log("Thumbnail:", inputThumnail);
     console.log("Código:", inputCode);
-    console.log("Stock:", inputStock);
-    console.log("Status:", inputStatus);
     console.log("Categoría:", inputCategory);
+    console.log("Status:", inputStatus);
+    
 
 
 
@@ -50,7 +51,6 @@ form.addEventListener('submit', (event) => {
     }
 
 
-
     socketClient.emit('newProduct', {
         title: inputTitle,
         description: inputDescription,
@@ -68,8 +68,8 @@ form.addEventListener('submit', (event) => {
 
 
 // DELETE
-const deleteProduct = document.getElementById('post-delete')
-const inputDelete = document.getElementById('prod-delete')
+const deleteProduct = document.getElementById('delete-btn')
+const inputDelete = document.getElementById('id-prod')
 
 deleteProduct.addEventListener('click', (event)=>{
     event.preventDefault()

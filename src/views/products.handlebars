@@ -12,7 +12,7 @@
     <li class="list-group-item">Disponibilidad: {{stock}}</li>
   </ul>
   <div class="card-body">
-  <button onclick="addToCart('{{id}}')" class="btn btn-primary">Agregar al carrito</button>
+  <button onclick="addToCart('652ad4b674c70461616407cc','{{id}}')" class="btn btn-primary">Agregar al carrito</button>
   </div>
 </div>
 </article>
@@ -20,11 +20,27 @@
 </article>
 
 
+<footer style="width: 100%; bottom: 0; position: fixed; padding-top: 2px; bottom: 0; padding-top: 0px;">
+  <div style="text-align: center; ">
+    {{#each pageNumbers}}
+      {{#if this.isCurrent}}
+        <a style="text-align: center; font-size: 22px;" href="{{null}}">{{this.number}}</a>
+      {{/if}}
+      {{#if this.isPrevious}}
+        <a style="text-align: center; font-size: 22px;" href="{{this.link}}">{{this.number}}</a>
+      {{/if}}
+      {{#if this.isNext}}
+        <a style="text-align: center; font-size: 22px;" href="{{this.link}}">{{this.number}}</a>
+      {{/if}}
+    {{/each}}
+  </div>
+</footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script type = "text/javascript"  src="../public/js/products.js"></script>
+    <script type = "text/javascript"  src="/js/products.js"></script>
 
   
 

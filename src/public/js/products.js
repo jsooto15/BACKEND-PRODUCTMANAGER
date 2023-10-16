@@ -1,6 +1,6 @@
 // crear una función autoejecutable para ver si existe un idcart en el localstorage
 // si no existe entonces crear un carrito nuevo y guardarlo en el localstorage
-(async () => {
+/*(async () => {
     const cartId = localStorage.getItem('cartId');
     if (!cartId) {
         const cart = await fetch('/api/carts', { method: 'POST' });
@@ -23,4 +23,15 @@ const addToCart = async (pid) => {
     console.log('Product added to cart',res.body);
     alert(`Product added to cart`);
 
+}*/
+
+const addToCart = async (cid, pid) => {
+    const res = await fetch(`/api/cart/${cid}/products/${pid}`, {method: 'POST'});
+    //const json = await res.json();
+    console.log(res);
+    
+    alert(`Product added to cart`);
+
 }
+
+ 

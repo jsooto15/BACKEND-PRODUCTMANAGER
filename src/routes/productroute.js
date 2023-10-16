@@ -42,10 +42,11 @@ prodRouter.post('/', async (req, res) => {
             stock,
             thumbnail,
             code,
+            category,
             status,
         } = req.body;
-        const newProd = await manager.addProduct( title, description, price, stock,thumbnail, code,  status);
-        
+        const newProd = await manager.addProduct( title, description, price, stock,thumbnail, code, category, status);
+
         req.context.socketServer.emit()
         
         res.json(newProd);
