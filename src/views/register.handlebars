@@ -1,0 +1,27 @@
+<main>
+	<form id="registerForm" action="/register" method="post">
+		<h2>
+			Registrate
+		</h2>
+		<div class="form-input">
+			<Label>Nombre</Label>
+			<input type="text" name="firstName" id="firstNameInput" />
+			<Label>Apellido</Label>
+			<input type="text" name="lastName" id="lastNameInput" />
+			<Label>Correo</Label>
+			<input type="email" name="email" id="emailInput" />
+			<Label>Edad</Label>
+			<input type="Number" name="age" id="ageInput" />
+			<Label>Contraseña</Label>
+			<input type="password" name="pass" id="passwordInput" />
+			<Label>Rol</Label>
+			<select name="role" id="roleInput">
+                <option value="admin">Administrador</option>
+                <option value="user">Usuario</option>
+            </select>
+		</div>
+		<input type="submit" value="Registrar"/>
+        <a href="/login">si ya tienes una cuenta, ingresa aquí</a>
+
+	</form>
+</main>

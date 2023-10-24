@@ -1,22 +1,69 @@
-<form id="form">
-    <input class="controls" type="text" name="title" id="title" placeholder="Ingrese Nombre del Producto"campo obligatorio>
-    <input class="controls" type="text" name="description" id="description" placeholder="Ingrese description"campo obligatorio>
-    <input class="controls" type="number" name="price" id="price" placeholder="Ingrese su precio"campo obligatorio>
-    <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese su stock"campo obligatorio>
-    <input class="controls" type="text" name="thumbnail" id="thumbnail" placeholder="Ingrese su imagen url"campo obligatorio>
-    <input class="controls" type="text" name="code" id="code" placeholder="Ingrese su code"campo obligatorio>
-    <input class="controls" type="text" name="category" id="category" placeholder="Ingrese su categoria"campo obligatorio>
-    <input class="controls" type="text" name="status" id="status" placeholder="Ingrese su status"campo obligatorio>
-    <button class="botons" type="submit" id="add-btn" >Cargar </button>
-    <br><br>
-    <h2> Para eliminar un producto:</h2>
-    <input class="controls" type="text" name="id-prod" id="id-prod" placeholder="Ingrese ID" >
-   <button class="botons" type="button" id="delete-btn">Eliminar</button>
+{{> navbar}}
+<article class="container">
+<form id="formCreate">
+    <h2> Crea tu producto</h2>
+    <div class="input-container">
+        <input class="controls" type="text" name="title" id="title" placeholder="Ingrese Nombre del Producto"campo obligatorio>
+        <input class="controls" type="text" name="description" id="description" placeholder="Ingrese description"campo obligatorio>
+        <input class="controls" type="number" name="price" id="price" placeholder="Ingrese su precio"campo obligatorio>
+        <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese su stock"campo obligatorio>
+        <input class="controls" type="text" name="thumbnail" id="thumbnail" placeholder="Ingrese su imagen url"campo obligatorio>
+        <input class="controls" type="text" name="code" id="code" placeholder="Ingrese su code"campo obligatorio>        
+        <select name="category" id="category" required>
+            <option value="electronic">Electrónico</option>
+            <option value="food">Comestible</option>
+            <option value="clothes">Ropa</option>
+        </select>
+        <select name="status" id="status" required>
+            <option value="true">Disponible</option>
+            <option value="false">No disponible</option>
+        </select>
+    </div>
+    <button class="botons" type="submit" id="add-btn">Crear</button>
 
 </form>
+<form id="formDelete">
+    <h2> Elimina un producto</h2>
+    <input class="controls" type="text" name="id-prod" id="id-prod" placeholder="Ingrese ID" >
+    <button class="botons" type="button" id="delete-btn">Eliminar</button>
+</form>
+
+</article>
 
 
- <article id="products">
+ <article class="container" id="products">
+    <section>
+        <h2>Lista de productos</h2>
+        <ul>
+            <li>
+                <strong>Título</strong>
+                <strong>Descripción</strong>
+                <strong>Código</strong>
+                <strong>Acción</strong>
+            </li>
+        </ul>
+        <ul id="productListContainer">
+            {{#each products}}
+            <li>
+                <span>
+                {{title}}
+
+                </span>
+                <span>
+                {{description}}
+
+                </span>
+                <span>
+                {{code}}
+
+                </span>
+                <button onclick="deleteProduct('{{_id}}')">
+                    Eliminar
+                </button>
+            </li>
+            {{/each}}
+        </ul>
+    </section>
       
 </article>
 

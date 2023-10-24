@@ -1,0 +1,57 @@
+{{> navbar}}
+<main>
+
+<section>
+	<table>
+		<tbody>
+<thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>ID</th>
+        <th>ID Carrito</th>
+        <th>Acción</th>
+    </tr>
+</thead>
+			{{#each users}}
+				<tr>
+					<td>
+						{{first_name}}
+
+					</td>
+					<td>
+						{{last_name}}
+
+					</td>
+					<td>
+						{{email}}
+
+					</td>
+					<td>
+						{{role}}
+
+					</td>
+					<td>
+						{{_id}}
+
+					</td>
+					<td>
+						{{cart}}
+
+					</td>
+					<td>
+						<button onclick="deleteUser('{{_id}}')">
+							Eliminar
+						</button>
+
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</section>
+
+</main>
+<script src="js/users.js"></script>

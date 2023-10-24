@@ -1,0 +1,33 @@
+<nav>
+    <ul>
+        <li>
+            <a href="/">Inicio</a>
+        </li>
+        <li>
+            <a href="/products">Catálogo</a>
+        </li>
+        <li>
+            <a href="/cart">Carrito</a>
+        </li>
+        {{#if user.isAdmin}}
+        <li>
+            <a href="/users">Usuarios</a>
+        </li>
+        <li>
+            <a href="/realtimeproducts">Productos</a>
+        </li>
+        {{/if}}
+        
+    </ul>
+    <ul>
+        <li>
+                {{user.first_name}}
+                {{user.last_name}}
+        </li>
+        <li>
+            <a href="/logout">
+            Cerrar sesión
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -1,20 +1,22 @@
- <article id="products">
-      {{#each products}}
-<article class="container" id="products">
- <div class="card" style="width: 18rem;">
-  <img src="{{thumbnail}}" class="card-img-top">
-  <div class="card-body">
-    <h2 class="card-title">{{title}}</h2>
-    <p class="card-text">{{description}}</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Pirce: {{price}}$</li>
-    <li class="list-group-item">Disponibilidad: {{stock}}</li>
-  </ul>
-  <div class="card-body">
-   <a href="#" class="btn btn-primary">Comprar</a>
-  </div>
-</div>
-</article>
-{{/each}}
+{{> navbar}}
+
+<article id="products">
+	{{#each products}}
+		<article class="container" id="products">
+			<div class="card" style="width: 18rem;">
+				<img src="{{thumbnail}}" class="card-img-top" />
+				<div class="card-body">
+					<h2 class="card-title">{{title}}</h2>
+					<p class="card-text">{{description}}</p>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">Pirce: {{price}}$</li>
+					<li class="list-group-item">Disponibilidad: {{stock}}</li>
+				</ul>
+				<div class="card-body">
+					<a href="#" class="btn btn-primary">Comprar</a>
+				</div>
+			</div>
+		</article>
+	{{/each}}
 </article>

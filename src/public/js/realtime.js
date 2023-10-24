@@ -1,90 +1,98 @@
-const socketClient = io();
-console.log(io);
+const socketClient = io()
+console.log("io")
 
-const form = document.getElementById('form');
+const formCreate = document.getElementById("formCreate")
 
-const productListContainer = document.getElementById('productListContainer'); 
+const productListContainer = document.getElementById("productListContainer")
 // captura de la etiqueta ul (lista vacia)
 
+formCreate.addEventListener("submit", (event) => {
+	event.preventDefault()
 
+	const inputTitle = document.getElementById("title").value
+	const inputDescription = document.getElementById("description").value
+	const inputPrice = parseFloat(document.getElementById("price").value)
+	const inputThumnail = document.getElementById("thumbnail").value
+	const inputCode = parseInt(document.getElementById("code").value, 10)
+	const inputStock = parseInt(document.getElementById("stock").value, 10)
+	const inputStatus = document.getElementById("status").value
+	const inputCategory = document.getElementById("category").value
 
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
+	console.log("formulario enviado")
 
-    const inputTitle = document.getElementById('title').value;
-    const inputDescription = document.getElementById('description').value;
-    const inputPrice = parseFloat(document.getElementById('price').value);
-    const inputThumnail = document.getElementById('thumbnail').value;
-    const inputCode = parseInt(document.getElementById('code').value, 10);
-    const inputStock = parseInt(document.getElementById('stock').value, 10);
-    const inputStatus = document.getElementById('status').value;
-    const inputCategory = document.getElementById('category').value;
+	console.log("Título:", inputTitle)
+	console.log("Descripción:", inputDescription)
+	console.log("Precio:", inputPrice)
+	console.log("Stock:", inputStock)
+	console.log("Thumbnail:", inputThumnail)
+	console.log("Código:", inputCode)
+	console.log("Categoría:", inputCategory)
+	console.log("Status:", inputStatus)
 
-    console.log("formulario enviado");
-
-    console.log("Título:", inputTitle);
-    console.log("Descripción:", inputDescription);
-    console.log("Precio:", inputPrice);
-    console.log("Stock:", inputStock);
-    console.log("Thumbnail:", inputThumnail);
-    console.log("Código:", inputCode);
-    console.log("Categoría:", inputCategory);
-    console.log("Status:", inputStatus);
-    
-
-
-
-    if (
-        !inputTitle ||
-        !inputDescription ||
-        isNaN(inputPrice) ||
-        !inputThumnail ||
-        isNaN(inputCode) ||
-        isNaN(inputStock) ||
-        !inputStatus ||
-        !inputCategory
-    ) {
-        alert('Please complete all the form fields product for add the product');
-        return;
-    }else{
-        alert('Product added successfully');
-    }
-
-
-    socketClient.emit('newProduct', {
-        title: inputTitle,
-        description: inputDescription,
-        price: inputPrice,
-        thumbnail: inputThumnail,
-        code: inputCode,
-        stock: inputStock,
-        status: inputStatus,
-        category: inputCategory,
-    });
-});
-
-
-
-
-
-// DELETE
-const deleteProduct = document.getElementById('delete-btn')
-const inputDelete = document.getElementById('id-prod')
-
-deleteProduct.addEventListener('click', (event)=>{
-    event.preventDefault()
-    const idDeleteFromSocketClient = inputDelete.value
-    socketClient.emit('deleteProduct', {idDeleteFromSocketClient})
+	if (
+		!inputTitle ||
+		!inputDescription ||
+		isNaN(inputPrice) ||
+		!inputThumnail ||
+		isNaN(inputCode) ||
+		isNaN(inputStock) ||
+		!inputStatus ||
+		!inputCategory
+	) {
+		alert("Please complete all the form fields product for add the product")
+		return
+	} else {
+		alert("Product added successfully")
+		socketClient.emit("newProduct", {
+			title: inputTitle,
+			description: inputDescription,
+			price: inputPrice,
+			thumbnail: inputThumnail,
+			code: inputCode,
+			stock: inputStock,
+			status: inputStatus,
+			category: inputCategory,
+		})
+	}
 })
 
+// DELETE
+const deleteProductBtn = document.getElementById("delete-btn")
+const inputDelete = document.getElementById("id-prod")
 
+deleteProductBtn.addEventListener("click", (event) => {
+	event.preventDefault()
+	const idDeleteFromSocketClient = inputDelete.value
+	socketClient.emit("deleteProduct", { idDeleteFromSocketClient })
+})
 
+const deleteProduct = (id) => {
+	socketClient.emit("deleteProduct", { id })
+}
 
-socketClient.on('Socket-Products', (productsList) => { 
-    //recibimos la lista actualizada de productos
-    productListContainer.innerHTML = '';
-    productsList.forEach(product => {
-        productListContainer.innerHTML = productListContainer.innerHTML + `<li>(id: ${product.id}) ${product.title}</li>`;
-    }) 
+socketClient.on("Socket-Products", (productsList) => {
+	//recibimos la lista actualizada de productos
+	productListContainer.innerHTML = ""
+	productsList.forEach((product) => {
+		productListContainer.innerHTML =
+			productListContainer.innerHTML +
+			`<li>
+                <span>
+                ${product.title}
 
-});
+                </span>
+                <span>
+                ${product.description}
+
+                </span>
+                <span>
+                ${product.code}
+
+                </span>
+                <button onclick="deleteProduct('${product._id}')">
+                    Eliminar
+                </button>
+            </li>`
+	})
+})
+
