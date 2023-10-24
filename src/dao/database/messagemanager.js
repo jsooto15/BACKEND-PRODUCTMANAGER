@@ -1,4 +1,4 @@
-import { messageModel } from "../models/messagemodel.js";
+import { messageModel } from "../models/message.model.js";
 
 export default class MessagesManager {
   //Muestra los mensajes

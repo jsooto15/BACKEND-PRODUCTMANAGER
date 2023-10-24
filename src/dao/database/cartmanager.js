@@ -1,4 +1,5 @@
 import { cartModel } from "../models/cart.models.js";
+import ProductManager from "./productmanager.js";
 
 export default class CartManager{
     //Muestra todos los carritos
@@ -11,6 +12,7 @@ export default class CartManager{
        
 
         const newCart = await cartModel.create(cart);
+        console.log('carrito creado', newCart)
         
         return newCart.id;
     }
@@ -22,9 +24,9 @@ export default class CartManager{
     //Muestra los productos en el carrito
     async getProductsInCart(cartId) {
         const cart = await this.getCartById(cartId);
-
+        const populatedCart = await cart.populate('products.product')
         if (cart) {
-            return cart.products;
+            return populatedCart.products.filter(el=>el.product);
         } else {
             console.log('Carrito no encontrado');
             return [];
@@ -35,12 +37,14 @@ export default class CartManager{
         const cart = await this.getCartById(cid); 
         console.log(cart);
 
-        let item = cart.products.find((p) => p.product === productId); 
-        console.log(productId);
+        let item = cart.products.find((p) => p?.product?.toString() === productId); 
+        console.log('Id del producto a agregar',productId);
         if (item) { 
             item.quantity++; 
         } else { 
-            item = { product: productId, quantity: 1 }; 
+            // const productManager = new ProductManager()
+            // const product = await productManager.getProductById(productId)
+            const item = { product: productId, quantity: 1 }; 
             console.log(item);
             cart.products.push(item); 
         } 
@@ -54,7 +58,7 @@ export default class CartManager{
         console.log(`Eliminando producto: ${pid} del carrito: ${cid}`);
         const cart = await this.getCartById(cid);
 
-        const itemIndex = cart.products.findIndex((product) => product.product.toString() === pid);
+        const itemIndex = cart.products.findIndex((product) => product.product?.toString() === pid);
 
         if (itemIndex !== -1) {
             // Si se encuentra el producto en el carrito, eliminarlo

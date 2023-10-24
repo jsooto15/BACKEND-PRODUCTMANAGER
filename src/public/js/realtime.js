@@ -95,4 +95,3 @@ socketClient.on("Socket-Products", (productsList) => {
             </li>`
 	})
 })
-

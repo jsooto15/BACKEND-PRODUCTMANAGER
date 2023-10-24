@@ -5,7 +5,6 @@ export default class ProductManager
   //Muestra los productos  
   async getProducts() {
       const products = await productModel.find({}).lean();
-        console.log(products);
         return products;
     }
   //Muestra un producto por su id
@@ -14,19 +13,7 @@ export default class ProductManager
         return product;
     }
   //Agregando producto
-    async addProduct( title, description, price, stock, thumbnail, code,category, status) {
-        const newProduct = {
-
-            title,
-            description,
-            price,
-            stock,
-            thumbnail,
-            code,
-            category,
-            status,
-            
-        };
+    async addProduct( newProduct) {
         const repeatCode = await productModel.find({ code: newProduct.code });
        
         if (!repeatCode) {

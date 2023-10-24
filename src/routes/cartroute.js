@@ -156,7 +156,7 @@ cartRouter.delete('/:cid/products/:pid', async (req, res) => {
             return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
-        await manager.deleteProductFromCart(cid, pid, quantity);
+        await manager.deleteProductFromCart(cid, pid);
         res.json({ message: 'Producto eliminado del carrito', productId: pid, cartId: cid });
 
     } catch (error) {
