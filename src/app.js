@@ -3,6 +3,7 @@ const app = express()
 import handlebars from "express-handlebars"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
+//import 'dotenv/config'
 import { __dirname } from "./path.js"
 const httpServer = app.listen(8080, () => console.log("ACTIVAU"))
 const socketServer = new Server(httpServer)
@@ -17,11 +18,12 @@ const managersocket = new ProductManager()
 import MessagesManager from "./dao/database/messagemanager.js"
 import userRouter from "./routes/userrouter.js"
 import sessionRouter from "./routes/sessionrouter.js"
+import './config.js'
 const messagesocket = new MessagesManager()
 
-mongoose.connect(
-	"mongodb+srv://jsooto4:cbfJNXtug3RvHxr8@cluster0.mutkthe.mongodb.net/?retryWrites=true&w=majority"
-)
+//mongoose.connect(
+//	`mongodb+srv://${process.env['MONGO_USENAME']}:${process.env['MONGO_PASSWORD']}@${process.env['MONGO_HOSTNAME']}/?retryWrites=true&w=majority`
+//)
 configPassport(passport)
 app.use(
 	session({
