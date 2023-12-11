@@ -6,7 +6,7 @@ const formCreate = document.getElementById("formCreate")
 const productListContainer = document.getElementById("productListContainer")
 // captura de la etiqueta ul (lista vacia)
 
-formCreate.addEventListener("submit", (event) => {
+formCreate.addEventListener("submit", async (event) => {
 	event.preventDefault()
 
 	const inputTitle = document.getElementById("title").value
@@ -42,17 +42,42 @@ formCreate.addEventListener("submit", (event) => {
 		alert("Please complete all the form fields product for add the product")
 		return
 	} else {
-		alert("Product added successfully")
-		socketClient.emit("newProduct", {
-			title: inputTitle,
-			description: inputDescription,
-			price: inputPrice,
-			thumbnail: inputThumnail,
-			code: inputCode,
-			stock: inputStock,
-			status: inputStatus,
-			category: inputCategory,
-		})
+		// socketClient.emit("newProduct", {
+		// 	title: inputTitle,
+		// 	description: inputDescription,
+		// 	price: inputPrice,
+		// 	thumbnail: inputThumnail,
+		// 	code: inputCode,
+		// 	stock: inputStock,
+		// 	status: inputStatus,
+		// 	category: inputCategory,
+		// })
+		try {
+			const res = await fetch(`api/products`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					title: inputTitle,
+					description: inputDescription,
+					price: inputPrice,
+					thumbnail: inputThumnail,
+					code: inputCode,
+					stock: inputStock,
+					status: inputStatus,
+					category: inputCategory,
+				}),
+			})
+			const respuesta = await res.json()
+			console.log(respuesta)
+			alert("Product added successfully")
+		} catch (error) {
+			console.log(error)
+			alert("Error adding this product")
+		}finally{
+			socketClient.emit("updateProductList", {})
+		}
 	}
 })
 
@@ -66,11 +91,24 @@ deleteProductBtn.addEventListener("click", (event) => {
 	socketClient.emit("deleteProduct", { idDeleteFromSocketClient })
 })
 
-const deleteProduct = (id) => {
-	socketClient.emit("deleteProduct", { id })
+const deleteProduct = async (id) => {
+	try {
+		const res = await fetch(`api/products/${id}`, {
+			method: "DELETE",
+		})
+		const respuesta = await res.json()
+		console.log(respuesta)
+		alert("Product deleted successfully")
+	} catch (error) {
+		console.log(error)
+		alert(`Error: ${error.message}`)
+	}
+	finally{
+		socketClient.emit("updateProductList",{})
+	}
 }
 
-socketClient.on("Socket-Products", (productsList) => {
+socketClient.on("enviodeproducts", (productsList) => {
 	//recibimos la lista actualizada de productos
 	productListContainer.innerHTML = ""
 	productsList.forEach((product) => {

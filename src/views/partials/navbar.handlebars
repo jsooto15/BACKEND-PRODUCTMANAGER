@@ -11,8 +11,10 @@
         </li>
         {{#if user.isAdmin}}
         <li>
-            <a href="/users">Usuarios</a>
+            <a href="/user">Usuarios</a>
         </li>
+        {{/if}}
+        {{#if user.isPremium}}
         <li>
             <a href="/realtimeproducts">Productos</a>
         </li>

@@ -1,0 +1,18 @@
+<main>
+	<form id="registerForm" action="/forgot-password" method="post">
+		<h2>
+			Recupera tu contraseña
+		</h2>
+		<p style="color: red;">
+			{{error}}
+		</p>
+		<div class="form-input">
+
+			<Label>Correo</Label>
+			<input type="email" name="email" id="emailInput" required/>
+		</div>
+		<input type="submit" value="Recurperar"/>
+        <a href="/login">si ya tienes una cuenta, ingresa aquí</a>
+
+	</form>
+</main>

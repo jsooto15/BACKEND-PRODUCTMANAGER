@@ -5,47 +5,95 @@ import { Server } from "socket.io"
 import mongoose from "mongoose"
 //import 'dotenv/config'
 import { __dirname } from "./path.js"
-const httpServer = app.listen(8080, () => console.log("ACTIVAU"))
+const httpServer = app.listen(8080, () => console.log("ACTIVADO"))
 const socketServer = new Server(httpServer)
 import prodRouter from "./routes/productroute.js"
 import cartRouter from "./routes/cartroute.js"
 import viewRouter from "./routes/viewsroute.js"
 import session from "express-session"
 import passport from "passport"
+import winston from "winston"
 import configPassport from "./auth/local.js"
-import ProductManager from "./dao/database/productmanager.js"
-const managersocket = new ProductManager()
-import MessagesManager from "./dao/database/messagemanager.js"
+import Product from "./dao/classes/product.dao.js"
+const productService = new Product()
+import Message from "./dao/classes/message.dao.js"
 import userRouter from "./routes/userrouter.js"
 import sessionRouter from "./routes/sessionrouter.js"
-import './config.js'
-const messagesocket = new MessagesManager()
+import "./config.js" 
+const messageService = new Message()
 
-//mongoose.connect(
-//	`mongodb+srv://${process.env['MONGO_USENAME']}:${process.env['MONGO_PASSWORD']}@${process.env['MONGO_HOSTNAME']}/?retryWrites=true&w=majority`
-//)
-configPassport(passport)
-app.use(
-	session({
-		secret: "mysecretpass",
-		resave: false,
-		saveUninitialized: false,
-	})
+const levels = {
+	fatal: 0,
+	error: 1,
+	warning: 2,
+	info: 3,
+	http: 4,
+	debug: 5,
+}
+const alignedWithColorsAndTime = winston.format.combine(
+	winston.format.colorize({
+		colors: { info: "green", fatal: "red", warning: "yellow", http: "blue" },
+	}),
+	winston.format.timestamp(),
+	winston.format.printf(
+		(info) => `${info.timestamp} ${info.level}: ${info.message}`
+	)
 )
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + "/public"))
-app.engine("handlebars", handlebars.engine())
-app.use(express.static(__dirname + "/public"))
-app.set("view engine", "handlebars")
-app.set("views", __dirname + "/views")
+let logger
+if (process.env.NODE_ENV !== "production") {
+	logger = winston.createLogger({
+		level: "debug",
+		levels,
+		format: winston.format.json(),
+		transports: [
+			new winston.transports.Console({
+				format: alignedWithColorsAndTime,
+			}),
+		],
+	})
+} else {
+	logger = winston.createLogger({
+		level: "info",
+		levels,
+		format: winston.format.json(),
+		transports: [
+			new winston.transports.File({ filename: "errors.log", level: "error" }),
+			new winston.transports.File({ filename: "combined.log" }),
+			new winston.transports.Console({
+				format: alignedWithColorsAndTime,
+			}),
+		],
+	})
+}
+
+try {
+	configPassport(passport)
+	app.use(
+		session({
+			secret: "mysecretpass",
+			resave: false,
+			saveUninitialized: false,
+		})
+	)
+	app.use(passport.initialize())
+	app.use(passport.session())
+	app.use(express.json())
+	app.use(express.urlencoded({ extended: true }))
+	app.use(express.static(__dirname + "/public"))
+	app.engine("handlebars", handlebars.engine())
+	app.use(express.static(__dirname + "/public"))
+	app.set("view engine", "handlebars")
+	app.set("views", __dirname + "/views")
+} catch (err) {
+	logger.fatal(err?.message)
+}
+
 //app.use(express.static("./public"))
 //app.use(express.static('public'));
 
 app.use((req, res, next) => {
 	req.context = { socketServer }
+	logger.http(`METHOD: ${req.method} - REQUESTED URL: ${req.url.slice(1) || "/"}`)
 	next()
 })
 
@@ -55,44 +103,42 @@ app.use("/api/users", userRouter)
 app.use("/api/sessions", sessionRouter)
 app.use("/", viewRouter)
 
-
 socketServer.on("connection", async (socket) => {
-	console.log("Cliente conectado con ID:", socket.id)
-	const listadeproductos = await managersocket.getProducts()
+	logger.debug("Cliente conectado con ID:", socket.id)
+	const listadeproductos = await productService.getProducts()
 	socketServer.emit("enviodeproducts", listadeproductos)
 
-	socket.on("addProduct", async (obj) => {
-		await managersocket.addProduct(obj)
-		const listadeproductos = await managersocket.getProducts()
+	socket.on("updateProductList", async (obj) => {
+		const listadeproductos = await productService.getProducts()
 		socketServer.emit("enviodeproducts", listadeproductos)
 	})
 	socket.on("newProduct", async (obj) => {
-		await managersocket.addProduct(obj)
-		const listadeproductos = await managersocket.getProducts()
+		await productService.addProduct(obj)
+		const listadeproductos = await productService.getProducts()
 		socketServer.emit("enviodeproducts", listadeproductos)
 	})
 
 	socket.on("deleteProduct", async ({ id }) => {
-		console.log(id)
-		await managersocket.deleteProduct(id)
-		const listadeproductos = await managersocket.getProducts({})
+		logger.debug(id)
+		await productService.deleteProduct(id)
+		const listadeproductos = await productService.getProducts({})
 		socketServer.emit("Socket-Products", listadeproductos)
 	})
 
 	socket.on("nuevousuario", (usuario) => {
-		console.log("usuario", usuario)
+		logger.debug("usuario", usuario)
 		socket.broadcast.emit("broadcast", usuario)
 	})
 	socket.on("disconnect", () => {
-		console.log(`Usuario con ID : ${socket.id} esta desconectado `)
+		logger.debug(`Usuario con ID : ${socket.id} esta desconectado `)
 	})
 
 	socket.on("mensaje", async (info) => {
-		console.log(info)
-		await messagesocket.createMessage(info)
+		logger.debug(info)
+		await messageService.createMessage(info)
 
-		socketServer.emit("chat", await messagesocket.getMessages())
+		socketServer.emit("chat", await messageService.getMessages())
 	})
 })
 
-export { passport as pass }
+export { passport as pass, logger }

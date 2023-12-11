@@ -1,6 +1,6 @@
 const listContainer = document.getElementById("cartContainer")
-const renderList = (lista)=>{
-    return `<table>
+const renderList = (lista) => {
+	return `<table>
     <thead>
     <tr>
         <th>
@@ -23,17 +23,28 @@ const renderList = (lista)=>{
     <tbody>
         ${lista}
     </tbody>
-</table>`
-} 
+</table>
 
-const getCartProducts = async ()=>{
-    listContainer.innerHTML = `<h4>Cargando...<h4/>`
+<button id="btnComprar">Pagar</button>
+`
+}
+
+const fetchPurchase = async ()=>{
     const cartId = await getCartId()
-    const res = await fetch(`/api/carts/${cartId}`)
-    const data = await res.json()
-    if(data?.length > 0){
-        const listaStr = data.map(
-					({ product, quantity }) => `
+	const res = await fetch(`/api/carts/${cartId}/purchase`, { method: "POST" })
+    console.log(res)
+    window.location.reload()
+}
+
+const getCartProducts = async () => {
+	listContainer.innerHTML = `<h4>Cargando...<h4/>`
+	const cartId = await getCartId()
+	const res = await fetch(`/api/carts/${cartId}`)
+	const data = await res.json()
+	if (data?.length > 0) {
+		const listaStr = data
+			.map(
+				({ product, quantity }) => `
             <tr>
                 <td><img src="${product.thumbnail}" style="width:64px;height:64px" /></td>
                 <td>${product.title}</td>
@@ -46,22 +57,25 @@ const getCartProducts = async ()=>{
                 </td>
             <tr/>
         `
-				).join(" ")
-        listContainer.innerHTML = renderList(listaStr)
-        
-    }else{
-        listContainer.innerHTML = `<h4>No hay productos en el carrito<h4/>`
-        
-    }
-    console.log(data)
+			)
+			.join(" ")
+		listContainer.innerHTML = renderList(listaStr)
+        const botonCompra = document.getElementById("btnComprar")
+        botonCompra.addEventListener("click", fetchPurchase)
+	} else {
+		listContainer.innerHTML = `<h4>No hay productos en el carrito<h4/>`
+	}
+	console.log(data)
 }
 
-const deleteCartProduct = async (pid)=>{
-    const cartId = await getCartId()
-    const res = await fetch(`api/carts/${cartId}/products/${pid}`,{method:'DELETE'})
-    const data = await res.json()
-    console.log(data)
-    await getCartProducts()
+const deleteCartProduct = async (pid) => {
+	const cartId = await getCartId()
+	const res = await fetch(`api/carts/${cartId}/products/${pid}`, {
+		method: "DELETE",
+	})
+	const data = await res.json()
+	console.log(data)
+	await getCartProducts()
 }
 
 getCartProducts()

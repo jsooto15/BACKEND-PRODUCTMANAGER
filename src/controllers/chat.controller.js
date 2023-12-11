@@ -1,0 +1,1 @@
+export const chatView = async (req, res) => res.render("chat")

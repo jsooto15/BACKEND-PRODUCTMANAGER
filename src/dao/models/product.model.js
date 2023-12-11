@@ -17,7 +17,8 @@ const productSchema = new mongoose.Schema({
     },
     stock: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     thumbnail: {
         type: String,
@@ -28,14 +29,18 @@ const productSchema = new mongoose.Schema({
         unique: true, 
         required: true
     },
+    owner:{
+        type:String,
+        required:true
+    },
     category: {
         type: String,
-        required: true
+        // required: true
     },
     status: {
         type: Boolean,
         default: true 
-    }
+    },
 
 });
 productSchema.plugin(mongoosePaginate);

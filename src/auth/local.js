@@ -1,7 +1,8 @@
 import {Strategy as LocalStrategy} from "passport-local"
 import { Strategy as GitHubStrategy } from "passport-github2"
 import { userModel } from "../dao/models/user.model.js"
-import CartManager from "../dao/database/cartmanager.js"
+import Cart from "../dao/classes/cart.dao.js"
+import { logger } from "../app.js"
 
 const GITHUB_CLIENT_ID = "eaf32c15ff07bc4568f3"
 const GITHUB_CLIENT_SECRET = "ff59aaf3705664df5b06d26c9dc2aa6d287fb611"
@@ -22,7 +23,7 @@ export default (passport) => {
 				passwordField: "pass",
 			},
 			async (email, password, cb) => {
-                console.log(email, password)
+                logger.info(email, password)
 				try {
 					const user = await userModel.findOne({ email })
 					if (!user) {
@@ -54,8 +55,8 @@ export default (passport) => {
 					})
 				}
 				const user = new userModel()
-				const managerCart = new CartManager()
-				const cartId = await managerCart.addCart()
+				const cartService = new Cart()
+				const cartId = await cartService.addCart()
 				user.email = email
 				user.password = user.encryptPassword(password)
 				user.first_name = req.body.firstName
@@ -86,8 +87,8 @@ export default (passport) => {
 					// and return that user instead.
 					let user = await userModel.findOne({email:profile?.username})
 					if(!user){
-						const managerCart = new CartManager()
-						const cartId = await managerCart.addCart()
+						const cartService = new Cart()
+						const cartId = await cartService.addCart()
 						user = new userModel()
 						user.first_name = profile?.displayName
 						user.email = profile?.username
@@ -95,7 +96,7 @@ export default (passport) => {
 						user.cart = cartId
 						await user.save()
 					}
-					console.log('perfil de github',profile)
+					logger.info('perfil de github',profile)
 					return done(null, user)
 				})
 			}
