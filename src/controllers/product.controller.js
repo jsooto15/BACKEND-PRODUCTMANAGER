@@ -6,7 +6,7 @@ import {
 	ValidateError,
 	errorHandler,
 } from "../errors.js"
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 import { enviarCorreoProducto } from "../utils.js"
 
 const productService = new Product()

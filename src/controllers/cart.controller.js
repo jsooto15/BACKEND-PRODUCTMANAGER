@@ -1,4 +1,4 @@
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 import Cart from "../dao/classes/cart.dao.js"
 import Product from "../dao/classes/product.dao.js"
 import Ticket from "../dao/classes/ticket.dao.js"

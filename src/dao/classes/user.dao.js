@@ -1,4 +1,4 @@
-import { logger } from "../../app.js"
+import { logger } from "../../../index.js"
 import { userModel } from "../models/user.model.js"
 export default class User {
 	//Muestra los productos

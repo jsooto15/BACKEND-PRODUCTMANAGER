@@ -1,5 +1,5 @@
 import { errorHandler } from "../errors.js"
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 
 export const test = async (req, res) => {
 	logger.debug('Hello world')

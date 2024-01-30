@@ -1,4 +1,4 @@
-import { logger } from "../../app.js"
+import { logger } from "../../../index.js"
 import { ticketModel } from "../models/ticket.model.js"
 export default class Ticket {
 	//Muestra los productos

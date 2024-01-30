@@ -1,4 +1,4 @@
-import { logger } from "../../app.js"
+import { logger } from "../../../index.js"
 import { cartModel } from "../models/cart.models.js"
 
 export default class Cart {

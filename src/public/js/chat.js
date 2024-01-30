@@ -1,4 +1,4 @@
-import { logger } from "../../app.js"
+import { logger } from "../../../index.js"
 
 const socketClient=io()
 const nombreUsuario=document.getElementById("nombreusuario")

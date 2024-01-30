@@ -1,4 +1,4 @@
-import { logger } from "./app.js"
+import { logger } from "./../index.js"
 
 const errorDict = {
 	ValidateError: 422,

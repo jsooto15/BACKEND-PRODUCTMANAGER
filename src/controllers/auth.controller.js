@@ -1,6 +1,6 @@
 import passport from "passport"
 import { UserDTO } from "../dto/user.dto.js"
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 import JWT from "jsonwebtoken"
 import { AvailabilityError, ValidateError, errorHandler } from "../errors.js"
 import User from "../dao/classes/user.dao.js"

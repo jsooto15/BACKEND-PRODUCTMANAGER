@@ -1,4 +1,4 @@
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 import { productModel } from "../dao/models/product.model.js"
 
 export const realtimeView = async (req, res) => {

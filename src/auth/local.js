@@ -2,7 +2,7 @@ import {Strategy as LocalStrategy} from "passport-local"
 import { Strategy as GitHubStrategy } from "passport-github2"
 import { userModel } from "../dao/models/user.model.js"
 import Cart from "../dao/classes/cart.dao.js"
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 
 const GITHUB_CLIENT_ID = "eaf32c15ff07bc4568f3"
 const GITHUB_CLIENT_SECRET = "ff59aaf3705664df5b06d26c9dc2aa6d287fb611"

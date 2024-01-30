@@ -1,4 +1,4 @@
-import { logger } from "../app.js"
+import { logger } from "../../index.js"
 import User from "../dao/classes/user.dao.js"
 import { userModel } from "../dao/models/user.model.js"
 import { AvailabilityError, PermissionError, errorHandler } from "../errors.js"
