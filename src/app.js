@@ -5,7 +5,7 @@ import { Server } from "socket.io"
 import mongoose from "mongoose"
 //import 'dotenv/config'
 import { __dirname } from "./path.js"
-const httpServer = app.listen(8080, () => {
+const httpServer = app.listen(3000, () => {
 	console.log(`Docs are available on http://localhost:8080/api/docs`)
 })
 const socketServer = new Server(httpServer)
