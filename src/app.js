@@ -5,7 +5,9 @@ import { Server } from "socket.io"
 import mongoose from "mongoose"
 //import 'dotenv/config'
 import { __dirname } from "./path.js"
-const httpServer = app.listen(8080, () => console.log("ACTIVADO"))
+const httpServer = app.listen(8080, () => {
+	console.log(`Docs are available on http://localhost:8080/api/docs`)
+})
 const socketServer = new Server(httpServer)
 import prodRouter from "./routes/productroute.js"
 import cartRouter from "./routes/cartroute.js"
@@ -19,7 +21,7 @@ const productService = new Product()
 import Message from "./dao/classes/message.dao.js"
 import userRouter from "./routes/userrouter.js"
 import sessionRouter from "./routes/sessionrouter.js"
-import "./config.js" 
+import "./config.js"
 const messageService = new Message()
 
 const levels = {

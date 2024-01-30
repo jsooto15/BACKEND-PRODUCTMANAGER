@@ -54,9 +54,37 @@ export const enviarCorreoRecuperacion = async (link, email)=>{
 			},
 		})
 		const info = await transporter.sendMail({
-			from:`Chemi <${account.user}>`,
+			from:`Product Manager <${account.user}>`,
 			to: email,
 			subject:'Testing purposes',
+			html
+		})
+		console.log("Message sent: " + info.messageId)
+		console.log("Preview URL: " + nodeMailer.getTestMessageUrl(info))
+	})
+
+
+}
+export const enviarCorreoProducto = async (prodName, email)=>{
+	const html = `<h1>Hola</h1>
+				<p>tu producto ${prodName} acaba de ser eliminado</p>
+	`
+
+	nodeMailer.createTestAccount(async (err, account) => {
+		// create reusable transporter object using the default SMTP transport
+		let transporter = nodeMailer.createTransport({
+			host: "smtp.ethereal.email",
+			port: 587,
+			secure: false, // true for 465, false for other ports
+			auth: {
+				user: account.user, // generated ethereal user
+				pass: account.pass, // generated ethereal password
+			},
+		})
+		const info = await transporter.sendMail({
+			from:`Product Manager <${account.user}>`,
+			to: email,
+			subject:'Inventory',
 			html
 		})
 		console.log("Message sent: " + info.messageId)

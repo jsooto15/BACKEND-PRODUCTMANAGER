@@ -1,15 +1,13 @@
 import passport from "passport"
 import { UserDTO } from "../dto/user.dto.js"
 import { logger } from "../app.js"
-import JWT from 'jsonwebtoken'
+import JWT from "jsonwebtoken"
 import { AvailabilityError, ValidateError, errorHandler } from "../errors.js"
 import User from "../dao/classes/user.dao.js"
 import { enviarCorreoRecuperacion } from "../utils.js"
 const userService = new User()
 
-
-const SECRET = process.env.JWT_SECRET || 'secret'
-
+const SECRET = process.env.JWT_SECRET || "secret"
 
 export const loginView = async (req, res) => {
 	res.render("login", {})
@@ -51,6 +49,12 @@ export const githubCallbackViewNext = (req, res) => {
 	res.redirect("/")
 }
 export const destroySession = async (req, res) => {
+	const id = req.user.id
+	const userData = { last_connection: new Date()}
+	const userFind = await userService.getUserById(id)
+	if (userFind) {
+		await userService.updateUser(id, userData)
+	}
 	req.logout({}, (err) => {
 		logger.error(err?.message)
 	})
@@ -68,23 +72,23 @@ export const forgotPassword = async (req, res) => {
 	try {
 		const { email } = req.body
 		if (!email) {
-			throw new ValidateError('Faltó el correo')
+			throw new ValidateError("Faltó el correo")
 		}
 		const user = await userService.getUserByEmail(email)
 		if (!user) {
-			throw new AvailabilityError('Usuario no encontrado')
+			throw new AvailabilityError("Usuario no encontrado")
 		}
 		const secret = SECRET + user.email + user.password
 		const payload = {
 			email,
-			id:user.id
+			id: user.id,
 		}
-		const token = JWT.sign(payload, secret, {expiresIn:'60m'})
+		const token = JWT.sign(payload, secret, { expiresIn: "60m" })
 		const link = `http://localhost:8080/reset-password/${user.id}/${token}`
 		logger.debug(link)
-		logger.debug('Creando correo')
+		logger.debug("Creando correo")
 		await enviarCorreoRecuperacion(link, email)
-		logger.debug('Correo enviado')
+		logger.debug("Correo enviado")
 		res.send("Un enlace de recuperacion ha sido enviado a tu correo " + email)
 	} catch (error) {
 		errorHandler(error, req, res)
@@ -92,7 +96,6 @@ export const forgotPassword = async (req, res) => {
 }
 export const forgotPasswordView = async (req, res) => {
 	res.render("forgot", {})
-	
 }
 export const resetPassword = async (req, res) => {
 	const { id, token } = req.params
@@ -118,18 +121,17 @@ export const resetPassword = async (req, res) => {
 		const payload = JWT.verify(token, secret)
 		user.password = user.encryptPassword(pass)
 		user.save()
-		res.render("login", {  })
+		res.render("login", {})
 	} catch (error) {
 		logger.warning("error on resetPassword")
 		logger.error(error.message)
 		const user = await userService.getUserById(id)
 		res.render("resetPassword", { error: error.message, email: user.email })
 	}
-
 }
 export const resetPasswordView = async (req, res) => {
 	try {
-		const {id, token} = req.params
+		const { id, token } = req.params
 		if (!id) {
 			throw new ValidateError("Faltó el usuario")
 		}
@@ -137,16 +139,15 @@ export const resetPasswordView = async (req, res) => {
 			throw new ValidateError("Faltó el token")
 		}
 		const user = await userService.getUserById(id)
-		if(!user){
+		if (!user) {
 			throw new AvailabilityError("Usuario no encontrado")
 		}
 		const secret = SECRET + user.email + user.password
 		const payload = JWT.verify(token, secret)
-		res.render("resetPassword", {id,token, email:user.email})
-	} catch(error) {
+		res.render("resetPassword", { id, token, email: user.email })
+	} catch (error) {
 		logger.warning("El enlace ha caducado")
 		logger.error(error.message)
-		res.render("forgot", {error:'El enlace ha caducado, intenta de nuevo'})
+		res.render("forgot", { error: "El enlace ha caducado, intenta de nuevo" })
 	}
-
 }

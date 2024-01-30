@@ -46,4 +46,17 @@ export default class User {
 			logger.info(error)
 		}
 	}
+	//Obtiene los usuarios con ultima conexion de hace 2 dias
+	lastConnectionUsers = async () => {
+		const compareDate = new Date()
+		compareDate.setDate(date.getDate() - 2)
+		try {
+			const users = await userModel.find({last_connection:{
+				$lt:compareDate
+			} })
+			return users
+		} catch (error) {
+			logger.info(error)
+		}
+	}
 }

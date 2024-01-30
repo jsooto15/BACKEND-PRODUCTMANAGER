@@ -109,13 +109,13 @@ export const purchase = async (req, res) => {
 		const updatedCart = await cartService.updateCart(cartId, {
 			products: [...blockedProducts],
 		})
-		
-		//generate ticket
+
 		const newTicket = await ticketService.addTicket({
 			amount: totalAmount,
 			purchaser: req.user.email,
 		})
 
+		//generate ticket
 		if (blockedProducts.length <= 0) {
 			return res.json({
 				message: "Su compra fue exitosa",
@@ -140,10 +140,7 @@ export const storeProduct = async (req, res) => {
 		const cid = req.params.cid
 		const pid = req.params.pid
 		const quantity = req.body.quantity || 1
-
-		if (quantity <= 0) {
-			throw new ValidateError("La cantidad requerida debe ser mayor que 0")
-		}
+		
 		const cart = await cartService.getCartById(cid)
 		if (!cart) {
 			throw new AvailabilityError("Carrito no encontrado")
@@ -151,6 +148,9 @@ export const storeProduct = async (req, res) => {
 		const product = await productService.getProductById(pid)
 		if (!product) {
 			throw new AvailabilityError("Producto no encontrado")
+		}
+		if (product.stock < quantity) {
+			throw new AvailabilityError("Cantidad de producto no disponible")
 		}
 		if (req?.user?.role !== "admin" && product?.owner === req?.user?.email) {
 			throw new PermissionError(

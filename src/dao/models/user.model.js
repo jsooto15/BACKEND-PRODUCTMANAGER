@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		default: "user",
 	},
+	documents: [
+		{
+			name: { type: String },
+			reference: { type: String },
+		},
+	],
+	last_connection: {
+		type: Date,
+	},
+	status:{
+		type:Boolean,
+		default:false
+	}
 })
 userSchema.methods.encryptPassword = (password)=>{
 	return bcrypt.hashSync(password, 10)

@@ -1,0 +1,79 @@
+{{> navbar}}
+<main>
+
+    <section style="display:flex; flex-direction: row; flex-wrap:wrap">
+        <form id="docs">
+            <h2>Perfil</h2>
+            <div class="input-container">
+                <Label>Primer nombre</Label>
+                <input class="controls" type="text" name="first_name" id="first_name"
+                    placeholder="Ingrese su primer nombre" value="{{first_name}}" disabled>
+            </div>
+            <div class="input-container">
+                <Label>Apellido</Label>
+                <input class="controls" type="text" name="last_name" id="last_name" placeholder="Ingrese su apellido"
+                    value="{{last_name}}" disabled>
+            </div>
+            <div class="input-container">
+                <Label>Correo</Label>
+                <input class="controls" type="email" name="email" id="email" placeholder="Ingrese su correo"
+                    value="{{email}}" disabled>
+            </div>
+            <div class="input-container">
+                <Label>Edad</Label>
+                <input class="controls" type="text" name="age" id="age" placeholder="Ingrese su edad" value="{{age}}"
+                    disabled>
+            </div>
+            <div class="input-container">
+                <Label>Rol</Label>
+                <input class="controls" type="text" name="role" id="role" placeholder="Ingrese su rol" value="{{role}}"
+                    disabled>
+            </div>
+            <div class="input-container">
+                <Label>Estado</Label>
+                <input class="controls" type="text" name="status" id="status" placeholder="Ingrese su estado"
+                    value="{{#if status}}activo{{else}}inactivo{{/if}}" disabled>
+            </div>
+            <div class="input-container">
+                <Label>Última conexión</Label>
+                <input class="controls" type="text" name="last_connection" id="last_connection"
+                    placeholder="Ingrese su ultima conexión" value="{{last_connection}}" disabled>
+            </div>
+            <h2>Lista de cargados</h2>
+            {{#each documents}}
+            <div>
+                <p>Nombre: {{name}} | Referencia: {{reference}}</p>
+            </div>
+            {{/each}}
+        </form>
+        <form id="docs" action="api/users/{{_id}}/documents" method="post" enctype="multipart/form-data">
+            <h2>Subir documentos</h2>
+            <div class="input-container">
+                <Label>Foto de perfil</Label>
+                <input style="width: 100%;" class="controls" type="file" name="profile" id="profile"
+                    placeholder="Ingrese su foto de perfil">
+            </div>
+            <div class="input-container">
+                <Label>Identificación</Label>
+                <input style="width: 100%;" class="controls" type="file" name="dni" id="dni"
+                    placeholder="Ingrese su documento de identificación">
+            </div>
+            <div class="input-container">
+                <Label>Comprobante de domicilio</Label>
+                <input style="width: 100%;" class="controls" type="file" name="domicilio" id="domicilio"
+                    placeholder="Ingrese su documento de domicilio">
+            </div>
+            <div class="input-container">
+                <Label>Comprobante de estado de cuenta</Label>
+                <input style="width: 100%;" class="controls" type="file" name="account" id="account"
+                    placeholder="Ingrese su documento de estado de cuenta">
+            </div>
+            <button>
+                Subir
+            </button>
+        </form>
+
+    </section>
+
+</main>
+<script src="js/profile.js"></script>

@@ -13,7 +13,7 @@ formCreate.addEventListener("submit", async (event) => {
 	const inputDescription = document.getElementById("description").value
 	const inputPrice = parseFloat(document.getElementById("price").value)
 	const inputThumnail = document.getElementById("thumbnail").value
-	const inputCode = parseInt(document.getElementById("code").value, 10)
+	const inputCode = document.getElementById("code").value
 	const inputStock = parseInt(document.getElementById("stock").value, 10)
 	const inputStatus = document.getElementById("status").value
 	const inputCategory = document.getElementById("category").value
@@ -34,7 +34,7 @@ formCreate.addEventListener("submit", async (event) => {
 		!inputDescription ||
 		isNaN(inputPrice) ||
 		!inputThumnail ||
-		isNaN(inputCode) ||
+		!inputCode ||
 		isNaN(inputStock) ||
 		!inputStatus ||
 		!inputCategory

@@ -10,8 +10,8 @@
         <th>Apellido</th>
         <th>Correo</th>
         <th>Rol</th>
-        <th>ID</th>
-        <th>ID Carrito</th>
+        <th class="hiddeable">ID</th>
+        <th class="hiddeable">ID Carrito</th>
         <th>Acción</th>
     </tr>
 </thead>
@@ -33,16 +33,17 @@
 						{{role}}
 
 					</td>
-					<td>
+					<td class="hiddeable">
 						{{_id}}
-
 					</td>
-					<td>
+					<td class="hiddeable">
 						{{cart}}
-
 					</td>
-					<td>
-						<button onclick="deleteUser('{{_id}}')">
+					<td style="display: flex; flex-direction:column; gap:8px">
+						<button onclick="rolUser('{{_id}}')">
+							Cambiar Rol
+						</button>
+						<button style="background-color: red;" onclick="deleteUser('{{_id}}')">
 							Eliminar
 						</button>
 

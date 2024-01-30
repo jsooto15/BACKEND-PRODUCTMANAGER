@@ -7,6 +7,7 @@ import {
 	errorHandler,
 } from "../errors.js"
 import { logger } from "../app.js"
+import { enviarCorreoProducto } from "../utils.js"
 
 const productService = new Product()
 
@@ -171,7 +172,7 @@ export const store = async (req, res) => {
 
 		req.context.socketServer.emit()
 
-		res.json(newProd)
+		res.status(201).json(newProd)
 	} catch (error) {
 		errorHandler(error, req, res)
 	}
@@ -205,6 +206,9 @@ export const destroy = async (req, res) => {
 			throw new PermissionError(
 				"No puede eliminar un producto que no te pertenece"
 			)
+		}
+		if (prodFind?.owner !== req?.user?.email) {
+			enviarCorreoProducto(prodFind.title, prodFind?.owner)
 		}
 		const eliminar = await productService.deleteProduct(productId)
 		res.json(eliminar)

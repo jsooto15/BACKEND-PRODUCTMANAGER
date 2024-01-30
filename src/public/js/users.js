@@ -7,3 +7,10 @@ const deleteUser = async (id) =>{
     console.log(res)
     location.reload()
 }
+const rolUser = async (id) =>{
+    const res = await fetch(`api/users/premium/${id}`, {
+			method: "POST",
+		})
+    console.log(res)
+    location.reload()
+}
