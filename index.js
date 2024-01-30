@@ -4,24 +4,24 @@ import handlebars from "express-handlebars"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
 //import 'dotenv/config'
-import { __dirname } from "./path.js"
+import { __dirname } from "./src/path.js"
 const httpServer = app.listen(3000, () => {
 	console.log(`Docs are available on http://localhost:8080/api/docs`)
 })
 const socketServer = new Server(httpServer)
-import prodRouter from "./routes/productroute.js"
-import cartRouter from "./routes/cartroute.js"
-import viewRouter from "./routes/viewsroute.js"
+import prodRouter from "./src/routes/productroute.js"
+import cartRouter from "./src/routes/cartroute.js"
+import viewRouter from "./src/routes/viewsroute.js"
 import session from "express-session"
 import passport from "passport"
 import winston from "winston"
-import configPassport from "./auth/local.js"
-import Product from "./dao/classes/product.dao.js"
+import configPassport from "./src/auth/local.js"
+import Product from "./src/dao/classes/product.dao.js"
 const productService = new Product()
-import Message from "./dao/classes/message.dao.js"
-import userRouter from "./routes/userrouter.js"
-import sessionRouter from "./routes/sessionrouter.js"
-import "./config.js"
+import Message from "./src/dao/classes/message.dao.js"
+import userRouter from "./src/routes/userrouter.js"
+import sessionRouter from "./src/routes/sessionrouter.js"
+import "./src/config.js"
 const messageService = new Message()
 
 const levels = {

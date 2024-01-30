@@ -5,8 +5,8 @@
 	"main": "productmanager.js",
 	"type": "module",
 	"scripts": {
-		"start": "node ./src/app.js",
-		"dev": "nodemon ./src/app.js",
+		"start": "node ./index.js",
+		"dev": "nodemon ./index.js",
 		"test": "mocha --timeout 10000 ./src/tests/*.test.js"
 	},
 	"repository": {
