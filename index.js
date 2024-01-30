@@ -5,8 +5,8 @@ import { Server } from "socket.io"
 import mongoose from "mongoose"
 //import 'dotenv/config'
 import { __dirname } from "./src/path.js"
-const httpServer = app.listen(3000, () => {
-	console.log(`Docs are available on http://localhost:8080/api/docs`)
+const httpServer = app.listen(3000, "0.0.0.0",() => {
+	console.log(`Docs are available on http://localhost:3000/api/docs`)
 })
 const socketServer = new Server(httpServer)
 import prodRouter from "./src/routes/productroute.js"
